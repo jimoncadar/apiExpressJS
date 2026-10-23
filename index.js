@@ -3,7 +3,7 @@ import pool from './db.js';
 
 const app = express();
 app.use(express.json());
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res)=>{
     res.json({
