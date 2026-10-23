@@ -126,8 +126,40 @@ app.put('/usuarios/:id', async(req, res)=>{
         res.status(500).json({
             mensaje:`Error: problemas con el servidor: ${error}`
         });
+    }    
+});
+
+app.delete('/usuarios/:id', async(req, res)=>{
+     try{
+        const id = req.params.id;
+
+        if(isNaN(id)){
+            return res.status(400).json({
+                mensaje:"Solo se permiten números en el id"
+            })
+        }
+
+        const [resultado] = await pool.query("delete from usuarios where id=?",[id]);
+
+        if(resultado.affectedRows==0){
+            return res.status(404).json({
+                mensaje:"Usuario no encontrado"
+            })
+        }
+
+        res.json({
+            mensaje:"Usuario eliminado",
+            usuario:{
+                id:id            
+            }
+        });        
     }
-    
+    catch(error){
+        console.error(error);
+        res.status(500).json({
+            mensaje:`Error: problemas con el servidor: ${error}`
+        });
+    }    
 });
 
 app.listen(PORT, ()=>{
