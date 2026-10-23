@@ -17,3 +17,12 @@ Content-Type: application/json
 {    
     "nombre":"Rosa"
 }
+
+###
+
+PUT  http://localhost:3000/usuarios/2
+Content-Type: application/json
+
+{    
+    "nombre":"Pere Gill"
+}

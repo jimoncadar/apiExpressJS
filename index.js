@@ -87,6 +87,49 @@ app.post('/usuarios', async (req, res)=>{
     }
 });
 
+app.put('/usuarios/:id', async(req, res)=>{    
+    try{
+        const id = req.params.id;
+
+        if(isNaN(id)){
+            return res.status(400).json({
+                mensaje:"Solo se permiten números en el id"
+            })
+        }
+
+        const {nombre} = req.body;
+
+        if(!nombre){
+            return res.status(400).json({
+                mensaje:"Debe enviar algo en nombre"
+            });
+        }
+
+        const [resultado] = await pool.query("update usuarios set nombre=? where id=?",[nombre, id]);
+
+        if(resultado.affectedRows==0){
+            return res.status(404).json({
+                mensaje:"Usuario no encontrado"
+            })
+        }
+
+        res.json({
+            mensaje:"Usuario modificado",
+            usuario:{
+                id:id,
+                nombre:nombre
+            }
+        });        
+    }
+    catch(error){
+        console.error(error);
+        res.status(500).json({
+            mensaje:`Error: problemas con el servidor: ${error}`
+        });
+    }
+    
+});
+
 app.listen(PORT, ()=>{
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
