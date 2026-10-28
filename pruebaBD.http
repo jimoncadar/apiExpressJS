@@ -9,13 +9,18 @@ GET http://localhost:3000/usuarios
 
 GET http://localhost:3000/usuarios/1
 
+
+###
+
+GET http://localhost:3000/usuarios/Ros
+
 ###
 
 POST http://localhost:3000/usuarios
 Content-Type: application/json
 
 {    
-    "nombre":"Rosa"
+    "nombre":"Juan"
 }
 
 ###

@@ -26,17 +26,19 @@ app.get('/usuarios', async(req, res)=>{
     }
 });
 
-app.get('/usuarios/:id', async(req, res)=>{
+app.get('/usuarios/:nombre', async(req, res)=>{
     try{
-        const id = parseInt(req.params.id);
+        // const id = parseInt(req.params.id);
+        const nombre = req.params.nombre;
 
-        if(isNaN(id)){
+        /* if(isNaN(id)){
             return res.status(400).json({
                 mensaje:"Solo se permiten números en el id"
             })
-        }
+        } */
 
-        const [respuesta] = await pool.query("select * from usuarios where id=?",[id]);
+
+        const [respuesta] = await pool.query("select * from usuarios where nombre like ?",[`%${nombre}%`]);
 
         if(respuesta.length == 0){
             return res.status(404).json({mensaje:"Usuario no encontrado"});
